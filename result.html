@@ -1,0 +1,72 @@
+<html>
+<head>
+    <title>BMI Results</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" type="text/css" href="stylesheet.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="panel">
+            <h2 class="text-center">Your BMI Result</h2>
+            <div id="results" class="text-center"></div>
+            <h3 class="text-center">BMI Chart</h3>
+            <table class="bmi-chart">
+                <tr>
+                    <th>BMI Range</th>
+                    <th>Category</th>
+                </tr>
+                <tr id="underweight">
+                    <td>&lt; 18.5</td>
+                    <td>Underweight</td>
+                </tr>
+                <tr id="normal">
+                    <td>18.5 - 24.9</td>
+                    <td>Normal weight</td>
+                </tr>
+                <tr id="overweight">
+                    <td>25 - 29.9</td>
+                    <td>Overweight</td>
+                </tr>
+                <tr id="obese">
+                    <td>&gt;= 30</td>
+                    <td>Obese</td>
+                </tr>
+            </table>
+            <button type="button" class="btn" onclick="goBack()">Go Back</button>
+        </div>
+    </div>
+    <script>
+        function calculateBMI() {
+            let weight = localStorage.getItem("weight");
+            let height = localStorage.getItem("height");
+            if (weight && height) {
+                let bmi = (weight / ((height / 100) * (height / 100))).toFixed(2);
+                document.getElementById("results").innerHTML = "Your BMI is: " + bmi;
+                highlightCategory(bmi);
+            } else {
+                document.getElementById("results").innerHTML = "No data available. Please enter your details again.";
+            }
+        }
+
+        function highlightCategory(bmi) {
+            let bmiValue = parseFloat(bmi);
+            if (bmiValue < 18.5) {
+                document.getElementById("underweight").style.backgroundColor = "lightblue";
+            } else if (bmiValue >= 18.5 && bmiValue <= 24.9) {
+                document.getElementById("normal").style.backgroundColor = "lightgreen";
+            } else if (bmiValue >= 25 && bmiValue <= 29.9) {
+                document.getElementById("overweight").style.backgroundColor = "yellow";
+            } else {
+                document.getElementById("obese").style.backgroundColor = "red";
+            }
+        }
+
+        function goBack() {
+            window.location.href = "index.html";
+        }
+
+        window.onload = calculateBMI;
+    </script>
+</body>
+</html>
